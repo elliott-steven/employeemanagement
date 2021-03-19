@@ -1,0 +1,24 @@
+{
+  "name": "employeemanagement",
+  "version": "1.0.0",
+  "description": "Create CLI employee tracker",
+  "main": "connection.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elliott-steven/employeemanagement.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elliott-steven/employeemanagement/issues"
+  },
+  "homepage": "https://github.com/elliott-steven/employeemanagement#readme",
+  "dependencies": {
+    "inquirer": "^8.0.0",
+    "mysql": "^2.18.1"
+  }
+}
