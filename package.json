@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/elliott-steven/employeemanagement#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "inquirer": "^8.0.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "sequelize": "^6.5.1"
   }
 }
