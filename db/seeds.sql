@@ -1,16 +1,16 @@
-INSERT INTO departments(department_name)
+INSERT INTO department(department_name)
 VALUES ('Management'),
 ('Sales'),
 ('Warehouse'),
 ('Human Resources'),
 ('Quality Control');
 
-INSERT INTO roles(title)
+INSERT INTO role(title)
 VALUES('Regional Manager'),
 ('Sales Rep'),
 ('HR Rep');
 
-INSERT INTO employees(first_name, last_name)
+INSERT INTO employee(first_name, last_name)
 VALUES('Steven', 'Elliott'),
 ('Daniel', 'Coleman'),
 ('David', 'Bandle');

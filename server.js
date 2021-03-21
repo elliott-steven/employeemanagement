@@ -33,55 +33,52 @@ function search() {
         choices: options
     })
 
-    .then(function (answer) {
-        switch (answer.action) {
-            case options[0]:
-                viewDepartment();
-                break;
+        .then(function (answer) {
+            switch (answer.action) {
+                case options[0]:
+                    viewDepartment();
+                    break;
 
-            case options[1]:
-                viewRole();
-                break;
+                case options[1]:
+                    viewRole();
+                    break;
 
-            case options[2]:
-                viewEmp();
-                break;
+                case options[2]:
+                    viewEmp();
+                    break;
 
-            case options[3]:
-                updEmp();
+                case options[3]:
+                    updEmp();
 
-            case options[4]:
-                connection.end();
-                break
-        }
-    })
+                case options[4]:
+                    connection.end();
+                    break
+            }
+        })
 }
 function viewDepartment() {
-    var sqlQuery = "SELECT * FROM departments";
-    connection.query(sqlQuery, function (err, result) {
-        if (err) throw err;
-
-        console.table(result)
-        search();
-    })
+    connection.query("SELECT * FROM department", function (err, answer) {
+        console.table(answer);
+    });
+    search();
 }
+
 
 function viewEmp() {
 
-    sqlQuery += "LEFT JOIN roles ";
-    var sqlQuery = "SELECT first_name, last_name, title, salary FROM employees ";
-    
-    
+    var sqlQuery = "SELECT first_name, last_name, title, salary FROM employee ";
+    sqlQuery += "LEFT JOIN role ";
+    sqlQuery += "ON employee.role_id = role.id"
     connection.query(sqlQuery, function (err, result) {
         if (err) throw err;
 
         console.table(result)
-        search();
-    })
+      search();
+    });
 }
 
 function viewRole() {
-    var sqlQuery = "SELECT * FROM roles";
+    var sqlQuery = "SELECT * FROM role";
     connection.query(sqlQuery, function (err, result) {
         if (err) throw err;
 
@@ -101,7 +98,7 @@ const updEmp = () => {
                 message: "Which employee do you want to update?",
                 choices: empOptions
             })
-           
+
     }
-    updSearch();  
+    updSearch();
 }
