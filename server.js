@@ -1,13 +1,17 @@
 // Required dependencies
-var inquirer = require('inquirer');
-var connection = require('./connection');
+const inquirer = require('inquirer');
+const mysql = require('mysql');
+const connection = require('./connection');
 
 // Begin CLI part of application
 const options = [
-    "View Departments",
-    "View Roles",
-    "View Employees",
+    "View ALL Departments",
+    "View ALL Roles",
+    "View ALL Employees",
     "Update Employee",
+    "Add Department",
+    "Add Role",
+    "Add Employee",
     "exit"
 ];
 
@@ -67,7 +71,7 @@ function viewEmp() {
     sqlQuery += "LEFT JOIN roles ";
     var sqlQuery = "SELECT first_name, last_name, title, salary FROM employees ";
     
-    sqlQuery += "ON employees.role_id = role.id"
+    
     connection.query(sqlQuery, function (err, result) {
         if (err) throw err;
 
