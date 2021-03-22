@@ -180,7 +180,7 @@ function addDepartment() {
 
     inquirer.prompt([
         {
-            name: "name",
+            name: "department_name",
             type: "input",
             message: "What Department would you like to add?"
         }
@@ -188,7 +188,7 @@ function addDepartment() {
         var query = connection.query(
             "INSERT INTO department SET ? ",
             {
-                name: res.name
+                department_name: res.name
             },
             function (err) {
                 if (err) throw err
