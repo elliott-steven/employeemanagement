@@ -1,6 +1,7 @@
 // Required dependencies
 const inquirer = require('inquirer');
 const mysql = require('mysql');
+const consoleTable = require('console.table');
 const connection = require('./connection');
 
 // Begin CLI part of application
@@ -130,19 +131,48 @@ function selectManager() {
 }
 
 
-const updEmp = () => {
+function updEmp() {
+    connection.query("SELECT employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id;", function (err, res) {
 
-    function updSearch() {
-        inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "Which employee do you want to update?",
-                choices: empOptions
-            })
+        if (err) throw err
+        console.log(res)
+        inquirer.prompt([
+            {
+                name: "lastName",
+                type: "rawlist",
+                choices: function () {
+                    var lastName = [];
+                    for (var i = 0; i < res.length; i++) {
+                        lastName.push(res[i].last_name);
+                    }
+                    return lastName;
+                },
+                message: "What is the Employee's last name? ",
+            },
+            {
+                name: "role",
+                type: "rawlist",
+                message: "What is the Employees new role? ",
+                choices: selectRole()
+            },
 
-    }
-    updSearch();
+        ]).then(function (val) {
+            var roleId = selectRole().indexOf(val.role) + 1
+            connection.query("UPDATE employee SET WHERE ?",
+                {
+                    last_name: val.lastName
+                },
+                {
+                    role_id: roleId
+                },
+                function (err) {
+                    if (err) throw err
+                    console.table(val)
+                    search()
+                })
+        });
+    });
+
 }
 
 // Add Department Prompts
@@ -170,37 +200,37 @@ function addDepartment() {
 }
 
 // Add New Employee Role
-function addRole() { 
-    connection.query("SELECT role.title AS Title, role.salary AS Salary FROM role",   function(err, res) {
-      inquirer.prompt([
-          {
-            name: "Title",
-            type: "input",
-            message: "What is the title for this role?"
-          },
-          {
-            name: "Salary",
-            type: "input",
-            message: "What is the salary?"
-  
-          } 
-      ]).then(function(res) {
-          connection.query(
-              "INSERT INTO role SET ?",
-              {
-                title: res.Title,
-                salary: res.Salary,
-              },
-              function(err) {
-                  if (err) throw err
-                  console.table(res);
-                  search();
-              }
-          )
-  
-      });
+function addRole() {
+    connection.query("SELECT role.title AS Title, role.salary AS Salary FROM role", function (err, res) {
+        inquirer.prompt([
+            {
+                name: "Title",
+                type: "input",
+                message: "What is the title for this role?"
+            },
+            {
+                name: "Salary",
+                type: "input",
+                message: "What is the salary?"
+
+            }
+        ]).then(function (res) {
+            connection.query(
+                "INSERT INTO role SET ?",
+                {
+                    title: res.Title,
+                    salary: res.Salary,
+                },
+                function (err) {
+                    if (err) throw err
+                    console.table(res);
+                    search();
+                }
+            )
+
+        });
     });
-    }
+}
 
 // Add Employee Prompt
 function addEmp() {
