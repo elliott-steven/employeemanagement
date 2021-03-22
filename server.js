@@ -146,28 +146,61 @@ const updEmp = () => {
 }
 
 // Add Department Prompts
-function addDepartment() { 
+function addDepartment() {
 
     inquirer.prompt([
         {
-          name: "name",
-          type: "input",
-          message: "What Department would you like to add?"
+            name: "name",
+            type: "input",
+            message: "What Department would you like to add?"
         }
-    ]).then(function(res) {
+    ]).then(function (res) {
         var query = connection.query(
             "INSERT INTO department SET ? ",
             {
-              name: res.name
+                name: res.name
             },
-            function(err) {
+            function (err) {
                 if (err) throw err
                 console.table(res);
                 search();
             }
         )
     })
-  }
+}
+
+// Add New Employee Role
+function addRole() { 
+    connection.query("SELECT role.title AS Title, role.salary AS Salary FROM role",   function(err, res) {
+      inquirer.prompt([
+          {
+            name: "Title",
+            type: "input",
+            message: "What is the title for this role?"
+          },
+          {
+            name: "Salary",
+            type: "input",
+            message: "What is the salary?"
+  
+          } 
+      ]).then(function(res) {
+          connection.query(
+              "INSERT INTO role SET ?",
+              {
+                title: res.Title,
+                salary: res.Salary,
+              },
+              function(err) {
+                  if (err) throw err
+                  console.table(res);
+                  search();
+              }
+          )
+  
+      });
+    });
+    }
 
 // Add Employee Prompt
 function addEmp() {
